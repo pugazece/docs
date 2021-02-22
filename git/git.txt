@@ -1,0 +1,289 @@
+Useful utilities:
+	tree
+
+
+Read:
+	git reset
+	
+
+References : 
+	https://git-scm.com/docs
+	https://www.atlassian.com/git/tutorials/setting-up-a-repository
+	https://www.youtube.com/watch?v=SWYqp7iY_Tc
+	
+
+To view the status of current working directory (new, mofified & untracked files and status): 
+	git status
+
+
+To view the commit history :
+	git log
+
+
+To list the git config for current directory/repository :
+	git config --list
+	
+	
+To list the global git config :
+	git config --global --list
+
+
+Set username and email for current repository :
+	git config user.name <name>
+	git config user.email <email>
+	
+	Example :
+		git config user.name 'Bruce Wills'
+		git config user.email 'bruce.wills@mail.com'
+
+Set username and email globally :
+	git config --global user.name <name>
+	git config --global user.email <email>
+	
+	Example :
+		git config --global user.name 'Bruce Wills'
+		git config --global user.email 'bruce.wills@mail.com'
+
+
+Reset or remove username and email from current repository :
+	git config --unset user.name
+	git config --unset user.email
+
+Reset or remove username and email globally : 
+	git config --global --unset user.name
+	git config --global --unset user.email
+	
+
+To clone or copy a remote repository to local machine [Note: The default branch will be cloned or copied in the same name as of the remote repo] :
+	git clone <remote-git-repo-url>
+	
+	Example [Note: The default branch will be cloned in the name 'trax'] :
+		git clone https://github.com/google/trax.git
+
+
+Initialize a git repository locally:
+	git init
+
+
+Add files for staging :
+	git add <file-name>
+	
+	Example :
+		git add index.html
+		git add index.html app.js style.css
+		git add *.html
+	
+	Add all files except untracked files :
+		git add -u
+		
+	Add all files for staging (includes untracked files) :
+		git add .
+
+
+Remove files from staging (unstage files) :
+	git rm --cached <file-name>
+
+	Example :
+		git rm --cached index.html
+		git rm --cached index.html app.js style.css
+		git rm --cached *.html
+		
+	Recursively remove all staged files :
+		git rm -r --cached .
+
+
+Commit changes (save changes) :
+	Commits the staged changes [Note: A text editor will be opened, where a commit message can be added] :
+		git commit
+		
+	Add all files for staging (except untracked files) & commits the changes [Note: A text editor will be opened, where a commit message can be added] : 
+		git commit -a
+	
+	Commits the staged changes with specified message :
+		git commit -m <message>
+		
+		Example :
+			git commit -m 'Initial commit'
+		
+	Add all files for staging (except untracked files) & commits the changes with specified message : 
+		git commit -am <message>
+		
+		Example :
+			git commit -am 'Hotfix for mailer issue'
+
+
+Git ignore :
+	Create a file named '.gitignore' and list the directories and files that needs to be ignored by Git
+
+	Example (Add entries in '.gitignore' file) [Note: directory names are pre-fixed with '/'] :
+		log.txt
+		/build-directory
+		*.temp
+		
+
+Git branch :
+	List all local git branches :
+		git branch
+		
+	Create a new branch [Note : Creates a new branch from current branch (based on last commit), but will not switch to the created branch] :
+		git branch <branch-name>
+		
+		Example :
+			git branch login
+			git branch bug-fixes
+		
+	Create a new branch from current branch (based on last commit) & switch to created branch : 
+		git checkout -b <branch-name>
+		
+		Example :
+			git checkout -b login
+			git checkout -b big-fixes
+			
+
+Switch to specific git branch :
+	git checkout <branch-name>
+	
+	Example : 
+		git checkout login
+		git checkout bug-fixes
+	
+
+Delete a git branch [Note: Should be done outside the specified branch] :
+	Deletes the local branch if there are no pending commits or changes :
+		git branch -d <branch-name>
+		
+		Example :
+			git branch -d bug-fixes
+	
+	To force delete a branch :
+		git branch -D <branch-name>
+		
+		Example :
+			git branch -D bug-fixes
+	
+	Delete a remote branch :
+		git push <remote-name> --delete <branch-name>
+		(or)
+		git push <remote-name> :<branch-name>  # ':' does the trick
+		
+		Example :
+			git push origin --delete bug-fixes
+			git push origin :bug-fixes
+	
+	
+Git remote:
+	* Git remote is a reference to the remote git repository like Github or some company owned Git repository
+	* 'origin' is a commonly used name to refer a remote git repository
+	
+	Add a git remote [Note: This will set the mentioned url as both fetch url & push url] :
+		git remote add <remote-name> <git-repository-url>
+		
+		Example :
+			git remote add origin https://github.com/fullcalendar/fullcalendar-angular.git
+			git remote add testing https://github.com/fullcalendar/fullcalendar-angular.git
+			
+	Set or update url of existing remote [Note: This will set the mentioned url as both fetch url & push url] :
+		git remote set-url <remote-name> <git-repository-url>
+		
+		Example: 
+			git remote set-url origin https://github.com/fullcalendar/fullcalendar-angular.git
+			git remote set-url testing https://github.com/fullcalendar/fullcalendar-angular.git
+			
+	Set or update or change url for 'push' :
+		git remote set-url --push <remote-name> <git-repository-url>
+		
+		Example :
+			 git remote set-url --push https://github.com/fullcalendar/fullcalendar-angular.git
+	
+	To check the currently configured remotes :
+		git remote
+		(or)
+		git remote -v
+	
+	Rename remote :
+		git remote rename <current-name> <new-name>
+		
+		Example :
+			git remote rename origin github
+			
+	Remove remote reference :
+		git remote remove <remote-name>
+		
+		Example :
+			git remote remove origin
+			git remote remove testing
+			
+	To view all information about a remote :
+		git remote show <remote-name>
+		
+		Example :
+			git remote show origin
+			
+			
+Fetch or get latest metadata from remote git :
+	* It's helpful to know the changes done in the remote repo/branch since your last pull, but will not make any modifications to any file or branch in local
+	* If an upstream remote branch is configured, git will fetch from that remote/branch
+	* When no remote is specified, by default git fetches from the remote named 'origin'
+	
+	Git fetch command : 
+		git fetch
+	
+	To fetch from specific remote :
+		git fetch <remote-name>
+		
+		Exmaple:
+			git fetch origin
+
+
+Pull changes from remote repository (git pull = git fetch + git merge) :
+	* Fetches content from remote and merges into the current branch in local machine
+	* Local branch can be different than the branch being pulled
+	
+	If tracking is set (--set-upstream), this will pull changes from the specified remote :
+		git pull
+		
+	If tracking is NOT set, pull from a specific remote & branch :
+		git pull <remote-name> <branch-name>
+		
+		Example :
+			git pull origin master
+		
+		
+Push changes in local to a remote repository :
+	* Mentioned local branch will be pushed to remote repo in the same name.
+	* We can be in a branch named 'master' & push a different branch named 'bug-fix'
+		- We just need to mentioned the required remote & the local branch that needs to be pushed
+		
+	If tracking is set (--set-upstream), this will push changes to the specified remote :
+		git push
+	
+	If tracking is NOT set, push to the specified remote :
+		git push <remote-name> <local-branch-name>
+		
+		Example :
+			git push origin bug-fix
+			
+	To push changes and set a upstream (tracking) [Note: Sets remote and branch for future push & pull) :
+		git push -u <remote-name> <local-branch-name>
+		
+		Example :
+			git push -u origin bug-fix
+			
+			Note: In future, we can just use 'git push' to push changes to the already set upstream (i.e. already set remote & branch)
+		
+	Force push changes :
+		If tracking is set (--set-upsteam), force push to the specified upstream :
+			git push --force
+			
+		If tracking is NOT set, force push to a specific remote :
+			git push --force <remote-name> <local-branch-name>
+			
+			Example :
+				git push --force origin master
+			
+		To force push changes and also set tracking :
+			git push --force -u <remote-name> <local-branch-name>
+		
+			Example :
+				git push --force -u origin bug-fix
+
