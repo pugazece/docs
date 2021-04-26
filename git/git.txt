@@ -4,6 +4,9 @@ Useful utilities:
 
 Read:
 	git reset
+	git branch -a
+	git remote prune
+	git stash
 	
 
 References : 
